@@ -20,16 +20,20 @@ app.get('/posts', (req, res) => {
 app.post('/posts',
   [check('title').exists().isLength({ min: 1 }), check('content').exists().isLength({ min: 1 })],
   (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.mapped() });
-  }
-  return routes.posts.addPost(req, res);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.mapped() });
+    }
+    return routes.posts.addPost(req, res);
 });
 app.put('/posts/:postId',
   [check('title').exists().isLength({ min: 1 }), check('content').exists().isLength({ min: 1 })],
   (req, res) => {
-  return routes.posts.updatePost(req, res);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.mapped() });
+    }
+    return routes.posts.updatePost(req, res);
 });
 app.delete('/posts/:postId', (req, res) => {
   return routes.posts.removePost(req, res);
@@ -41,12 +45,20 @@ app.get('/posts/:postId/comments', (req, res) => {
 app.post('/posts/:postId/comments',
   [check('comment').exists().isLength({ min: 1 })],
   (req, res) => {
-  return routes.comments.addComment(req, res);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.mapped() });
+    }
+    return routes.comments.addComment(req, res);
 });
 app.put('/posts/:postId/comments/:commentId',
   [check('comment').exists().isLength({ min: 1 })],
   (req, res) => {
-  return routes.comments.updateComment(req, res);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.mapped() });
+    }
+    return routes.comments.updateComment(req, res);
 });
 app.delete('/posts/:postId/comments/:commentId', (req, res) => {
   return routes.comments.removeComment(req, res);
